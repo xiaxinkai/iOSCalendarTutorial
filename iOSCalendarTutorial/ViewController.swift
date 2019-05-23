@@ -64,11 +64,32 @@ class ViewController: UIViewController {
                     try store.save(event, span: .thisEvent)
                 }
                 catch {
-                    print("Error saving event in calendar")             }
+                    print("Error saving event in calendar")
+                    
+                }
+                
+                // 获取所有的事件（前后1天）
+                let startDate2 = Date().addingTimeInterval(-3600*24*1)
+                let endDate2 = Date().addingTimeInterval(3600*24*1)
+                let predicate2 = store.predicateForEvents(withStart: startDate2,
+                                                               end: endDate2, calendars: nil)
+                
+                print("查询范围 开始:\(startDate2) 结束:\(endDate2)")
+                
+                if let eV = store.events(matching: predicate2) as [EKEvent]? {
+                    for i in eV {
+                        print("eventIdentifier \(i.eventIdentifier!)" )
+                        print("eventIdentifier count \(i.eventIdentifier.count)" )
+                        print("calendarItemIdentifier \(i.calendarItemIdentifier)" )
+                        print("calendarItemIdentifier count \(i.calendarItemIdentifier.count)" )
+                        print("calendarItemExternalIdentifier \(i.calendarItemExternalIdentifier!)" )
+                        print("calendarItemExternalIdentifier count \(i.calendarItemExternalIdentifier.count)" )
+                        print("标题  \(i.title!)" )
+                        print("开始时间: \(i.startDate!)" )
+                        print("结束时间: \(i.endDate!)" )
+                    }
+                }
             }
         }
     }
-
-
 }
-
